@@ -25,3 +25,6 @@ const daten = {
 
     ]
 }
+
+const heute = new Date();
+console.log(heute); 
