@@ -1,16 +1,24 @@
-const daten = {
+export const daten = {
     fächer: [
         {
             fachname: "Mathe",
-            materialien: ["Mathebuch", "Theorieheft", "Übungsheft", "Taschenrechner", "Formelsammlung", "Zirkel",]
+            materialien: ["Mathebuch", "Übungsheft", "Taschenrechner"]
         },
         {
             fachname: "Englisch",
-            materialien: ["Englischbuch", "Übungsheft"]
+            materialien: ["Englischbuch", "Heft"]
         },
         {
             fachname: "IT",
             materialien: ["IT-Buch", "USB-Stick"]
+        },
+        {
+            fachname: "Geschichte",
+            materialien: ["Geschichtsbuch", "Heft"]
+        },
+        {
+            fachname: "Sport",
+            materialien: ["Sportsachen", "Turnschuhe"]
         }
     ],
     stundenplan: [
@@ -21,7 +29,45 @@ const daten = {
         {
             WochenTag: "Dienstag",
             fächer: ["IT", "Englisch"]
+        },
+        {
+            WochenTag: "Mittwoch",
+            fächer: ["Geschichte", "Mathe", "Sport"]
+        },
+        {
+            WochenTag: "Donnerstag",
+            fächer: ["IT", "Englisch", "Geschichte"]
+        },
+        {
+            WochenTag: "Freitag",
+            fächer: ["Mathe", "Sport"]
         }
+    ]
+}
+const datenLeer = {
+    fächer: [
 
+    ],
+    stundenplan: [
+        {
+            wochenTag: "Montag",
+            fächer: []
+        },
+        {
+            wochenTag: "Dienstag",
+            fächer: []
+        },
+        {
+            wochenTag: "Mittwoch",
+            fächer: []
+        },
+        {
+            wochenTag: "Donnerstag",
+            fächer: []
+        },
+        {
+            wochenTag: "Freitag",
+            fächer: []
+        }
     ]
 }
