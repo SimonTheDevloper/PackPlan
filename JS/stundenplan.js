@@ -16,4 +16,18 @@ function renderStundenplan() {
         });
     });
 };
-renderStundenplan();
+document.addEventListener('DOMContentLoaded', renderStundenplan);
+
+const hinzufügenBtn = document.getElementById('addfächerBtn');
+
+hinzufügenBtn.addEventListener('click', () => {
+    const fachNamenArray = daten.fächer.map(fach => fach.fachname);
+    console.log(fachNamenArray);
+    const fach = prompt(`Wähle ein Fach aus diesen aus: ${fachNamenArray}`);
+    const tag = prompt(`zu welchem Tag soll dieses Fach (${fach}) hinzugefügt werden.`);
+
+    const wochenTagObj = daten.stundenplan.find(t => t.wochenTag === tag);
+    wochenTagObj.fächer.push(fach);
+    console.log(wochenTagObj);
+    renderStundenplan()
+})
