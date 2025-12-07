@@ -5,15 +5,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schultschenmanger</title>
+    <link rel="stylesheet" href="../css/fächer.css">
 </head>
 
 <body>
-    <h1>Neues Fach hinzufügen</h1>
-    <input placeholder="z.B.: Mathe" type="text" id="neuesFach">
-    <button id="fachHinzufügen">Hinzufügen</button>
+    <h1>Schultaschenmanager</h1>
+
+    <button id="fachHinzufuegenBtn">+ Neues Fach hinzufügen</button>
 
     <div>
         <div id="fachContainer">
+        </div>
+    </div>
+
+    <div id="neuesFachDialog" class="fach-dialog">
+        <div class="dialog-inhalt">
+            <h3>Neues Fach hinzufügen</h3>
+            <div class="eingabe-gruppe">
+                <label for="neuesFachEingabe">Fachname:</label>
+                <input type="text" id="neuesFachEingabe" placeholder="z.B.: Mathematik">
+            </div>
+            <div class="dialog-knoepfe">
+                <button id="abbrechenKnopf">Abbrechen</button>
+                <button id="neuesFachAceptiern">Hinzufügen</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="neuesMaterialDialog" class="fach-dialog">
+        <div class="dialog-inhalt">
+            <h3>Neues Material hinzufügen</h3>
+            <div class="eingabe-gruppe">
+                <label for="neuesMaterialEingabe">Material:</label>
+                <input type="text" id="neuesMaterialEingabe" placeholder="z.B.: Schnellhefter">
+            </div>
+            <div class="dialog-knoepfe">
+                <button id="materialAbbrechenKnopf">Abbrechen</button>
+                <button id="neuesMaterialBestätigen">Hinzufügen</button>
+            </div>
         </div>
     </div>
     <script type="module" src="/js/fächer/fachHinzufügen.js"></script>

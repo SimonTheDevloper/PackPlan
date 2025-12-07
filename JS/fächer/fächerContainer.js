@@ -2,70 +2,87 @@ import { daten } from "../utils/daten.js";
 import { speichereDaten, ladeDaten } from "../utils/speicher.js";
 
 let aktuelleDaten = ladeDaten();
+let aktuellesFachIndex = null;
 
-if (!aktuelleDaten) {
-    console.log("Speicher war leer. Lade leere Struktur und speichere sie jetzt.");
+const neuesMaterialDialog = document.getElementById('neuesMaterialDialog');
+const neuesMaterialEingabe = document.getElementById('neuesMaterialEingabe');
+const neuesMaterialBestätigen = document.getElementById('neuesMaterialBestätigen');
+const materialAbbrechenKnopf = document.getElementById('materialAbbrechenKnopf');
 
-    aktuelleDaten = daten;
+materialAbbrechenKnopf.addEventListener('click', () => {
+    neuesMaterialDialog.style.display = 'none';
+});
 
-    speichereDaten(aktuelleDaten);
-}
+// wieder Ausshalb des diaglogs kann man schließen
+neuesMaterialDialog.addEventListener('click', (e) => {
+    if (e.target === neuesMaterialDialog) {
+        neuesMaterialDialog.style.display = 'none';
+    }
+});
+
+
+
+neuesMaterialBestätigen.addEventListener('click', () => {
+    const neuesMaterial = neuesMaterialEingabe.value.trim();
+
+    if (neuesMaterial && aktuellesFachIndex !== null) { ///Es muss ein Fach ausgewählt sein + Der Text darf nicht leer sein
+        const fachObjekt = aktuelleDaten.fächer[aktuellesFachIndex];
+        fachObjekt.materialien.push(neuesMaterial);
+        speichereDaten(aktuelleDaten);
+        renderFächerContainer();
+        neuesMaterialDialog.style.display = 'none';
+    }
+});
 
 export function renderFächerContainer() {
     const container = document.getElementById('fachContainer');
     container.innerHTML = '';
 
     aktuelleDaten.fächer.forEach((fach, index) => {
-        console.log(index)
-        const fachID = `fach-${index}`
-        const fachName = fach.fachname
-        const materialListe = fach.materialien
+        const fachKarte = document.createElement('div');
+        fachKarte.className = 'fach-karte';
+        fachKarte.id = `fach-${index}`;
 
-        console.log(fachName)
-        const fachDiv = document.createElement('div');
-        fachDiv.id = fachID
-        fachDiv.innerHTML += `<h2>${fachName}</h2>`;
+        const fachNameElement = document.createElement('h2');
+        fachNameElement.textContent = fach.fachname;
+        fachKarte.appendChild(fachNameElement);
 
         const materialSektion = document.createElement('section');
-        materialSektion.innerHTML += '<h3>Materialien:</h3>';
+        const materialUeberschrift = document.createElement('h3');
+        materialUeberschrift.textContent = 'Materialien:';
+        materialSektion.appendChild(materialUeberschrift);
 
         const ul = document.createElement('ul');
+        fach.materialien.forEach(material => {
+            const li = document.createElement('li');
+            li.textContent = material;
+            ul.appendChild(li);
+        });
+        materialSektion.appendChild(ul);
+        fachKarte.appendChild(materialSektion);
 
-        materialListe.forEach(material => {
-            ul.innerHTML += `<li>${material}</li>`
+        const hinzufügenBereich = document.createElement('div');
+        hinzufügenBereich.className = 'material-hinzufuegen';
+
+        const materialButton = document.createElement('button');
+        materialButton.textContent = '+ Material hinzufügen';
+        materialButton.dataset.fachIndex = index;
+
+        materialButton.addEventListener('click', () => {
+            aktuellesFachIndex = index;
+            neuesMaterialEingabe.value = '';
+            neuesMaterialDialog.style.display = 'flex';
         });
 
-        materialSektion.appendChild(ul);
-        fachDiv.appendChild(materialSektion);
+        hinzufügenBereich.appendChild(materialButton);
+        fachKarte.appendChild(hinzufügenBereich);
 
-
-
-        const hinzufügenSektion = document.createElement('section');
-        hinzufügenSektion.innerHTML += '<h3>Neues Material hinzufügen</h3>'
-        hinzufügenSektion.innerHTML +=
-            `<input placeholder="z.B.: Schnellhefzer" type="text" id="input-${fachID}">`
-
-        const buttonElement = document.createElement('button');
-        buttonElement.textContent = "Hinzufügen";
-        buttonElement.id = `btn-${fachID}`
-
-        buttonElement.addEventListener('click', () => neuesMaterialHinzufügen(index));
-        hinzufügenSektion.appendChild(buttonElement)
-        fachDiv.appendChild(hinzufügenSektion);
-        container.appendChild(fachDiv);
+        container.appendChild(fachKarte);
     });
 }
 
-document.addEventListener('DOMContentLoaded', renderFächerContainer);
-
-function neuesMaterialHinzufügen(fachIndex) {
-    const fachID = `fach-${fachIndex}`
-    const inputElement = document.getElementById(`input-${fachID}`);
-    const neuesMaterial = inputElement.value.trim();
-    console.log(neuesMaterial);
-
-    const fachObjekt = aktuelleDaten.fächer[fachIndex];
-    fachObjekt.materialien.push(neuesMaterial);
-    speichereDaten(aktuelleDaten);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderFächerContainer);
+} else {
     renderFächerContainer();
 }
