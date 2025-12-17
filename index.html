@@ -10,9 +10,11 @@
 </head>
 
 <body>
+    <!-- Navigation -->
     <nav>
         <a href="#" class="logo">Pack<span>Plan</span></a>
-        ≡
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menü öffnen">
+            ≡
         </button>
         <div class="nav-links">
             <a href="#" class="active">Packliste</a>
@@ -21,7 +23,7 @@
         </div>
     </nav>
 
-    <!-- Slideout Menu -->
+    <!-- Slide-out Menu -->
     <div class="hamburger-menu">
         <div class="menu-overlay" id="menuOverlay"></div>
         <div class="slide-out-menu" id="slideOutMenu">
@@ -84,43 +86,51 @@
     </footer>
 
     <script type="module" src="/js/packliste.js"></script>
-    <script>const hamburgerBtn = document.getElementById('hamburgerBtn');
+    <script>
+        // Hamburger Menu Functionality
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
         const closeMenu = document.getElementById('closeMenu');
         const slideOutMenu = document.getElementById('slideOutMenu');
         const menuOverlay = document.getElementById('menuOverlay');
 
+        // Open menu
         hamburgerBtn.addEventListener('click', () => {
             slideOutMenu.classList.add('open');
             menuOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
         });
 
+        // Close menu
         function closeMenuFunction() {
             slideOutMenu.classList.remove('open');
             menuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
+            document.body.style.overflow = ''; // Restore scrolling
         }
 
         closeMenu.addEventListener('click', closeMenuFunction);
         menuOverlay.addEventListener('click', closeMenuFunction);
 
+        // Close menu with Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && slideOutMenu.classList.contains('open')) {
                 closeMenuFunction();
             }
         });
 
+        // Close menu when clicking on a link (optional)
         const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
         mobileLinks.forEach(link => {
             link.addEventListener('click', closeMenuFunction);
         });
 
+        // Handle responsive behavior on window resize
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
+                // Ensure menu is closed on larger screens
                 closeMenuFunction();
             }
-        });</script>
-    <script src="/js/utils/navBarController.js"></script>
+        });
+    </script>
 </body>
 
 </html>
